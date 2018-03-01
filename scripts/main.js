@@ -1,28 +1,27 @@
 var form = document.querySelector('[data-coffee-order="form"]');
 
-form.addEventListener('submit', e => {
-  e.preventDefault();
+var dataStore = key => {
+  var get = () => {
+    var string = localStorage.getItem(key);
+    var parsed = JSON.parse(string);
+    return parsed;
+  }
+  
+  var set = data => {
+    var string = JSON.stringify(data);
+    localStorage.setItem(key, string);
+    return true;
+  }
 
-  var formArray = ['coffee','emailAddress','size','flavor','strength'];
+  return {
+    get,
+    set
+  }
+}
 
-  var formElements = formArray.map(element => {
-    var nodes = form.querySelectorAll(`[name="${element}"]`);
-    if (nodes.length > 1) {
-      var nodeArray = Array.from(nodes).filter(el => {
-        return el.selected || el.checked;
-      });
+var orderStore = dataStore('orders');
+var idStore = dataStore('id');
 
-      nodes = nodeArray;
-    }
-    var node = nodes[0];
-    return node;
-  });
+var orderArray = [1,2,3,4];
 
-  var order = {};
-
-  formElements.forEach((el, i) => {
-    order[formArray[i]] = el.value;
-  });
-
-  return order;
-});
+orderStore.set(orderArray);
