@@ -27,6 +27,22 @@ var dataStore = key => {
 var orderStore = dataStore('orders');
 var idStore = dataStore('id');
 
+// Validate order before submitting
+
+var validateOrder = obj => {
+  var tests = {
+    coffeeOrder: val => val.match(''),
+    emailAddress: val => val.match(''),
+  }
+
+  for (key in obj) {
+    var test =
+    console.log(tests[key](obj[key]));
+  }
+
+  return false;
+}
+
 // Generate new id and store in idStore
 
 var generateId = () => {
@@ -90,13 +106,24 @@ var removeOrder = id => {
 }
 
 var handleFormSubmission = form => {
-  var whiteList = ['coffeeOrder', 'emailAddress', 'size', 'flavor', 'strength'];
+  var id = generateId();
 
-  var obj = {};
-  obj.id = generateId();
-  whiteList.forEach(key => {
-    obj[key] = form[key].value;
-  });
+  var { coffeeOrder, emailAddress, size, flavor, strength } = form;
+
+  var obj = {
+    id,
+    coffeeOrder,
+    emailAddress,
+    size,
+    flavor,
+    strength
+  };
+
+  // if (validateOrder(obj) === false) {
+  //   console.log('There are errors with your order');
+  //   return;
+  // }
+  console.log(obj);
 
   createOrder(obj);
 }
