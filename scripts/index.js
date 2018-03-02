@@ -2,22 +2,14 @@
 // and creating nodes from orders
 
 var init = () => {
+  var Orders = orders();
   var initOrders = Orders.get();
+  var Dom = dom(Orders);
   initOrders.forEach(order => {
-    createNode(order);
+    Dom.add(order);
   });
 
   console.log(`Initialized ${initOrders.length} saved orders`);
-
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    handleFormSubmission(form);
-  });
-
-  form.addEventListener('reset', e => {
-    e.preventDefault();
-    form.reset();
-  });
 }
 
 init();

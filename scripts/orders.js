@@ -1,4 +1,4 @@
-var Orders = () => {
+var orders = () => {
 
 // Datastore function factory
 
@@ -70,5 +70,3 @@ return {
 }
 
 }
-
-var Orders = Orders();

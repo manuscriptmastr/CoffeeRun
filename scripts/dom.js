@@ -1,3 +1,5 @@
+var dom = (Orders) => {
+
 var form = document.querySelector('[data-coffee-order="form"]');
 var list = document.querySelector('[data-coffee-order="list"]');
 
@@ -67,4 +69,22 @@ var handleFormSubmission = form => {
 
   var newOrder = Orders.add(obj);
   createNode(newOrder);
+}
+
+// Add event listeners to form
+
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  handleFormSubmission(form);
+});
+
+form.addEventListener('reset', e => {
+  e.preventDefault();
+  form.reset();
+});
+
+return {
+  add: obj => createNode(obj)
+}
+
 }
