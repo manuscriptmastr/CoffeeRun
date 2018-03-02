@@ -30,17 +30,8 @@ var idStore = dataStore('id');
 // Validate order before submitting
 
 var validateOrder = obj => {
-  var tests = {
-    coffeeOrder: val => val.match(''),
-    emailAddress: val => val.match(''),
-  }
-
-  for (key in obj) {
-    var test =
-    console.log(tests[key](obj[key]));
-  }
-
-  return false;
+  var errors = [];
+  return errors;
 }
 
 // Generate new id and store in idStore
@@ -112,18 +103,19 @@ var handleFormSubmission = form => {
 
   var obj = {
     id,
-    coffeeOrder,
-    emailAddress,
-    size,
-    flavor,
-    strength
+    coffeeOrder: coffeeOrder.value,
+    emailAddress: emailAddress.value,
+    size: size.value,
+    flavor: flavor.value,
+    strength: strength.value
   };
 
-  // if (validateOrder(obj) === false) {
-  //   console.log('There are errors with your order');
-  //   return;
-  // }
-  console.log(obj);
+  var errors = validateOrder(obj);
+
+  if (errors.length) {
+    console.log('There are errors with your order');
+    return;
+  }
 
   createOrder(obj);
 }
