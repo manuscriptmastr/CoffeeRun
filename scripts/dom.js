@@ -78,11 +78,6 @@ form.addEventListener('submit', e => {
   handleFormSubmission(form);
 });
 
-form.addEventListener('reset', e => {
-  e.preventDefault();
-  form.reset();
-});
-
 return {
   add: obj => createNode(obj)
 }
