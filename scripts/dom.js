@@ -6,7 +6,8 @@ var list = document.querySelector('[data-coffee-order="list"]');
 // Create node from object
 
 var createNode = obj => {
-  var id = obj.id;
+  var id = obj._id;
+  var email = obj.emailAddress;
   var name = `order-${id}`;
   
   var li = document.createElement('div');
@@ -23,7 +24,7 @@ var createNode = obj => {
   label.classList.add('form-check-label');
   label.setAttribute('for', name);
 
-  var text = document.createTextNode(obj.coffeeOrder);
+  var text = document.createTextNode(obj.coffee);
 
   label.appendChild(text);
   li.appendChild(input);
@@ -35,17 +36,16 @@ var createNode = obj => {
 
   input.addEventListener('click', e => {
     e.preventDefault();
-    Orders.remove(id);
-    node.remove();
+    Orders.remove(email).then(node.remove());
   });
-}
+};
 
 // Validate order before submitting
 
 var validateOrder = obj => {
   var errors = [];
   return errors;
-}
+};
 
 // Handle submitted order
 
@@ -53,7 +53,7 @@ var handleFormSubmission = form => {
   var { coffeeOrder, emailAddress, size, flavor, strength } = form;
 
   var obj = {
-    coffeeOrder: coffeeOrder.value,
+    coffee: coffeeOrder.value,
     emailAddress: emailAddress.value,
     size: size.value,
     flavor: flavor.value,
@@ -63,13 +63,13 @@ var handleFormSubmission = form => {
   var errors = validateOrder(obj);
 
   if (errors.length) {
-    console.log('There are errors with your order');
-    return;
+    console.log('Order has errors');
+  } else {
+    Orders.add(obj).then(newOrder => {
+      createNode(newOrder);
+    });
   }
-
-  var newOrder = Orders.add(obj);
-  createNode(newOrder);
-}
+};
 
 // Add event listeners to form
 
@@ -80,6 +80,6 @@ form.addEventListener('submit', e => {
 
 return {
   add: obj => createNode(obj)
-}
+};
 
 }
