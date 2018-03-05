@@ -1,7 +1,19 @@
 var dom = (Orders) => {
 
 var form = document.querySelector('[data-coffee-order="form"]');
+var suggestions = document.querySelector('[data-coffee-order="suggestions"]')
 var list = document.querySelector('[data-coffee-order="list"]');
+
+// Create suggestion from object
+
+var createSuggestion = obj => {
+  var suggestion = obj.coffee;
+  var option = document.createElement('option');
+  option.textContent = suggestion;
+  option.value = suggestion;
+
+  suggestions.appendChild(option);
+}
 
 // Create node from object
 
@@ -33,6 +45,8 @@ var createNode = obj => {
   var node = li;
 
   list.appendChild(node);
+
+  createSuggestion(obj);
 
   input.addEventListener('click', e => {
     e.preventDefault();
